@@ -11,7 +11,7 @@ img{max-width:100%}
   --ink:#0a0a0a; --paper:#ffffff; --sel:#0a246a; --tip:#ffffe1;
   --ui:"Tahoma","Verdana","Geneva",sans-serif;
   --pix:"Pixelify Sans","Tahoma",sans-serif;
-  color-scheme:only light;
+  color-scheme:light;
 }
 @font-face{font-family:"Pixelify Sans";src:url(PixelifySans.ttf) format("truetype");font-display:swap}
 *{box-sizing:border-box}
@@ -185,6 +185,3 @@ legend{padding:0 4px;font-weight:bold}
 .books small{color:#555;margin-left:auto;white-space:nowrap}
 .books p{margin:0 0 6px 36px;font-size:13px;color:#333}
 @media (max-width:860px){.books{grid-template-columns:minmax(0,1fr)}}
-
-/* a long unbroken name (a repository link) wraps instead of running past the window */
-a{overflow-wrap:anywhere}

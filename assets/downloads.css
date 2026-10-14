@@ -5,7 +5,7 @@
   --ink:#0a0a0a; --paper:#ffffff; --sel:#0a246a; --tip:#ffffe1;
   --ui:"Tahoma","Verdana","Geneva",sans-serif;
   --pix:"Pixelify Sans","Tahoma",sans-serif;
-  color-scheme:only light;
+  color-scheme:light;
 }
 @font-face{font-family:"Pixelify Sans";src:url(PixelifySans.ttf) format("truetype");font-display:swap}
 *{box-sizing:border-box}
@@ -81,6 +81,3 @@ table.files{width:100%;border-collapse:collapse;font-variant-numeric:tabular-num
 .unset{color:var(--lo)}
 .older{margin:0;padding-left:20px}
 .empty{background:var(--tip);border:1px solid var(--dk);padding:10px 12px;max-width:72ch}
-
-/* a long unbroken name (a repository link) wraps instead of running past the window */
-a{overflow-wrap:anywhere}
