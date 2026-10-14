@@ -60,8 +60,7 @@ touch-first editor. Draw a room, raise its floor, drop a monster, press Play.
 - screenshot text: ThreeSprite rigging a pixel-art hero
 - short: Billboard sprites with a 3D rig behind them, baked into any number of views.
 
-Billboard sprites with a 3D rig behind them. Draw once, bone it, animate it,
-bake any number of views.
+Billboard sprites with a 3D rig behind them. 3D bone animation is included.
 
 ## qPainter
 
@@ -88,7 +87,7 @@ Pixel-art textures with wrap, palettes, ramps, layers and frames, and a live
 - screenshot text: DigidreamSound editing a sound recipe
 - short: Sound effects as recipes, not recordings. MIT licensed.
 
-Sound effects as recipes, not recordings. A hundred sounds weigh about 80 KB.
+Sound effects as recipes, not recordings. A hundred sounds weigh about 80 KB. Arguably the rawest part of the suite.
 
 ## DigidreamSynth
 
@@ -102,7 +101,7 @@ Sound effects as recipes, not recordings. A hundred sounds weigh about 80 KB.
 - short: A small DAW with a deterministic synth: piano roll, patches, loops and cues.
 
 A small DAW with piano roll, patches, loops and cues. The game synthesizes the
-music itself.
+music itself. Very raw yet.
 
 ## Graphs
 
@@ -130,4 +129,4 @@ it.
 - short: A module in, a game out: Android, Windows, macOS and Linux apps, built in the browser.
 
 A module in, a game out: Android, Windows, macOS, Linux. All in the browser,
-nothing uploaded.
+nothing uploaded. IOS and Android AAB exports are yet to come.
