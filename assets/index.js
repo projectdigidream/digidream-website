@@ -98,7 +98,7 @@ requestAnimationFrame(draw);
     }
     $('dl-ver').textContent = `Version ${R.versionOf(rel)} · released ${R.date(rel.published_at)}${rel.prerelease ? ' · pre-release' : ''}`
     $('dl-tag').textContent = rel.tag_name
-    const files = R.filesOf(rel).filter((x) => x.platform)
+    const files = R.onePerSystem(R.filesOf(rel))
     const label = (x) => R.PLATFORMS[x.platform].label + ' (' + R.PLATFORMS[x.platform].detail + ')'
     const pick = R.pickFor(files, mine)
     if (pick) {
@@ -106,6 +106,7 @@ requestAnimationFrame(draw);
       main.hidden = false; main.textContent = ''
       main.append(icon(x2icon(pick.platform)), 'Download for ' + label(pick) + ' · ' + R.size(pick.a.size))
       main.href = pick.a.browser_download_url
+      main.dataset.platform = pick.platform
     } else if (files.length) {
       $('dl-rec-label').textContent = `Not built for ${R.PLATFORMS[mine].label} yet. It is available for:`
     } else {
@@ -115,7 +116,8 @@ requestAnimationFrame(draw);
     for (const x of files) {
       if (x === pick) continue
       const b = ext(document.createElement('a')); b.className = 'b95'; b.href = x.a.browser_download_url
-      const sm = document.createElement('small'); sm.textContent = R.PLATFORMS[x.platform].detail + ' · ' + R.size(x.a.size)
+      b.dataset.platform = x.platform
+      const sm = document.createElement('small'); sm.textContent = R.PLATFORMS[x.platform].detail + ' · ' + R.kindOf(x.a.name) + ' · ' + R.size(x.a.size)
       b.append(icon(x2icon(x.platform)), R.PLATFORMS[x.platform].label + ' ', sm); others.appendChild(b)
     }
   }

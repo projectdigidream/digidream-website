@@ -57,6 +57,23 @@ window.DNP_RELEASES = (function () {
     if (/Linux/i.test(ua)) return 'linux-x64'
     return 'windows-x64'
   }
+  // A release can carry several files for one system: an installer and an
+  // archive (setup.exe and .zip, .dmg and .zip, .AppImage and .tar.gz). The
+  // Download box offers one per system, the installer first; the downloads
+  // page lists them all.
+  const RANK = [/\.(exe|msi)$/, /\.dmg$/, /\.appimage$/, /\.apk$/, /\.deb$/, /\.(zip|tar\.gz|tgz|tar\.xz)$/]
+  const rank = (name) => { const i = RANK.findIndex((re) => re.test(name.toLowerCase())); return i < 0 ? RANK.length : i }
+  function onePerSystem (files) {
+    const best = new Map()
+    for (const x of files) if (x.platform && (!best.has(x.platform) || rank(x.a.name) < rank(best.get(x.platform).a.name))) best.set(x.platform, x)
+    const order = ['windows-x64', 'macos-arm64', 'macos-x64', 'macos', 'linux-x64', 'android']
+    return [...best.values()].sort((a, b) => order.indexOf(a.platform) - order.indexOf(b.platform))
+  }
+  // what kind of file it is, for the button: "installer", "disk image", ...
+  function kindOf (name) {
+    const n = name.toLowerCase()
+    return /\.(exe|msi)$/.test(n) ? 'installer' : n.endsWith('.dmg') ? 'disk image' : n.endsWith('.appimage') ? 'AppImage' : n.endsWith('.apk') ? 'APK' : n.endsWith('.deb') ? '.deb' : 'archive'
+  }
   // the file for this device: an exact match, else a universal macOS build
   function pickFor (files, mine) {
     return files.find((x) => x.platform === mine) ||
@@ -114,5 +131,5 @@ window.DNP_RELEASES = (function () {
   const MB = 1024 * 1024
   const size = (b) => b >= MB * 10 ? Math.round(b / MB) + ' MB' : b >= MB ? (b / MB).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB'
   const date = (iso) => new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })
-  return { OWNER, TOOLS, ENGINE_REPO, PLATFORMS, repoOf, repoUrl, releasesUrl, latestUrl, toolOf, versionOf, platformOf, parse, detect, pickFor, load, releasesOf, latestOf, filesOf, size, date }
+  return { onePerSystem, kindOf, OWNER, TOOLS, ENGINE_REPO, PLATFORMS, repoOf, repoUrl, releasesUrl, latestUrl, toolOf, versionOf, platformOf, parse, detect, pickFor, load, releasesOf, latestOf, filesOf, size, date }
 })()
