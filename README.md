@@ -8,11 +8,16 @@ It is a static site in plain HTML, CSS and JavaScript, dressed as a Windows 95 d
 
 - `index.html`: the main page. The welcome window, the three screens the studio runs on, the Download box, "Why I made this", the tools, the tutorials' contents, the AI-slopped example games, and the engine under it all.
 - `downloads.html`: every tool's releases, read live from its own GitHub repository.
+- `tools.md`: the tools, their descriptions and where they live (below).
 - `tutorials/`: the tutorials site ([digidream-tutorials](https://github.com/projectdigidream/digidream-tutorials)). It is bundled in when the site is built, not kept here.
+
+## The tools: `tools.md`
+
+Everything the site says about a tool is in [`tools.md`](tools.md): its card in the Tools window, its tab in the Download box, and its folder on the downloads page. Each tool is a `##` section with a few `- field: value` lines, then the card's text; the top of the file explains every field. The build writes the cards into `index.html` and the list into `assets/tools.js`. It stops, naming the line, if a field is misspelled or missing, or if a screenshot, icon or tutorial page does not exist.
 
 ## Downloads come from GitHub Releases
 
-Each tool is released from its own repository, listed at the top of `assets/releases.js`:
+Each tool is released from its own repository, named in `tools.md`:
 
 | Tool | Repository |
 |---|---|
@@ -42,6 +47,8 @@ GitHub allows 60 unauthenticated requests an hour per visitor, which is why the 
 node scripts/build.mjs                       # -> dist/, tutorials from ../tutorials
 python3 -m http.server -d dist 8975          # then open http://localhost:8975/
 ```
+
+Preview `dist/`, not this folder: the tool cards and `assets/tools.js` only exist once the build has written them.
 
 Use `--tutorials <folder>` to bundle a checkout from somewhere other than `../tutorials`, and `--out <folder>` to build somewhere other than `dist/`.
 

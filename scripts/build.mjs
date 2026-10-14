@@ -5,6 +5,11 @@
 //   node scripts/build.mjs --out <folder>          # somewhere other than dist/
 //   node scripts/build.mjs --no-releases           # skip the releases snapshot
 //
+// The tools come from tools.md: their cards are written into index.html, and
+// assets/tools.js gives the pages' scripts the same list. A mistake there (a
+// missing field, a screenshot or tutorial page that does not exist) stops the
+// build with the line it is on.
+//
 // It also writes assets/releases.json, a snapshot of every tool's GitHub
 // releases, which the pages read before asking GitHub themselves. It uses
 // GITHUB_TOKEN when set (the Pages workflow sets it), else the local gh login,
@@ -18,6 +23,7 @@
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync, readdirSync, statSync, readFileSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import vm from 'node:vm'
+import { parseTools, cardHtml, toolsJs } from './tools.mjs'
 import { dirname, join, resolve, basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -33,18 +39,42 @@ if (!existsSync(join(TUT, 'assets', 'nav.js'))) {
   console.error(`no tutorials at ${TUT} (expected assets/nav.js there); pass --tutorials <folder>`)
   process.exit(1)
 }
+// the tools, checked before anything is written
+const { tools, problems } = parseTools(readFileSync(join(ROOT, 'tools.md'), 'utf8'))
+const icons = readFileSync(join(ROOT, 'assets', 'icons.js'), 'utf8')
+for (const t of tools) {
+  const at = `tools.md:${t.line} (${t.name})`
+  if (t.screenshot && !existsSync(join(ROOT, 'assets', 'shots', t.screenshot))) problems.push(`${at}: no screenshot assets/shots/${t.screenshot}`)
+  if (t.icon && !new RegExp('(^|\\W)' + t.icon + ':\\[|ICONS\\.' + t.icon + '=').test(icons)) problems.push(`${at}: no icon "${t.icon}" in assets/icons.js`)
+  const page = t.tutorial && join(TUT, t.tutorial.endsWith('/') ? t.tutorial + 'index.html' : t.tutorial)
+  if (page && !existsSync(page)) problems.push(`${at}: no tutorial page ${t.tutorial} in ${TUT}`)
+}
+if (problems.length) {
+  console.error('tools.md needs fixing:\n  ' + problems.join('\n  '))
+  process.exit(1)
+}
+
 rmSync(OUT, { recursive: true, force: true })
 mkdirSync(OUT, { recursive: true })
 for (const f of SITE) cpSync(join(ROOT, f), join(OUT, f), { recursive: true, filter: (p) => basename(p) !== '.DS_Store' })
 cpSync(TUT, join(OUT, 'tutorials'), { recursive: true, filter: (p) => p === TUT || !SKIP_IN_TUTORIALS.has(basename(p)) })
 writeFileSync(join(OUT, '.nojekyll'), '') // GitHub Pages: serve files as they are
 
+// the tools into the pages
+writeFileSync(join(OUT, 'assets', 'tools.js'), toolsJs(tools))
+const OWNER = /OWNER = '([^']+)'/.exec(readFileSync(join(ROOT, 'assets', 'releases.js'), 'utf8'))[1]
+let index = readFileSync(join(OUT, 'index.html'), 'utf8')
+const CARDS = '<!-- tools: the cards are written here from tools.md by scripts/build.mjs -->'
+if (!index.includes(CARDS)) { console.error('index.html has lost the line the cards go in: ' + CARDS); process.exit(1) }
+index = index.replace(CARDS, tools.map((t) => cardHtml(t, OWNER)).join('\n')).replace('<!-- tools-count -->', String(tools.length))
+writeFileSync(join(OUT, 'index.html'), index)
+
 if (!process.argv.includes('--no-releases')) await snapshotReleases(join(OUT, 'assets', 'releases.json'))
 
 async function snapshotReleases (file) {
   // the repository list is the one the pages use: run releases.js with just enough of a browser
   const ctx = { window: {}, document: { currentScript: null }, location: { href: 'https://example.invalid/' }, navigator: { userAgent: '' }, URL }
-  vm.runInNewContext(readFileSync(join(ROOT, 'assets', 'releases.js'), 'utf8'), ctx)
+  vm.runInNewContext(toolsJs(tools) + readFileSync(join(ROOT, 'assets', 'releases.js'), 'utf8'), ctx)
   const R = ctx.window.DNP_RELEASES
   let token = process.env.GITHUB_TOKEN || ''
   if (!token) { try { token = execFileSync('gh', ['auth', 'token'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim() } catch (e) {} }

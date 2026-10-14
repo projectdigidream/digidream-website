@@ -109,24 +109,10 @@
       <h2>Seven tools, one module</h2>
       <p class="sub">Each tool writes into the same game module. The studio is the hub; the others open from it, as plugins or standalone pages.</p>
       <div class="tools">
-        <article class="win out tool wide" data-icon="map"><div class="tb"><span class="t">Studio - maps · play</span></div>
-          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/studio-3d.jpg" alt="Studio's 3D map editor on Cinderfall's west foundry" loading="lazy"></button>
-          <div><h3>Studio</h3><p>Maps, monsters, weapons, props, triggers, screens and Play in one touch-first editor. Draw a room, raise its floor, drop a monster, press Play.</p><span class="links"><a class="b95 dlk" href="#w-download" data-dl="studio">Download</a><a class="b95" href="tutorials/studio/">Tutorial</a><a class="b95" href="https://github.com/projectdigidream/digidream-studio" target="_blank" rel="noopener">Source</a></span></div></div></article>
-        <article class="win out tool" data-icon="sprite"><div class="tb"><span class="t">ThreeSprite - sprites</span></div>
-          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/sprite-rig.jpg" alt="ThreeSprite rigging a pixel-art hero" loading="lazy"></button><h3>ThreeSprite</h3><p>Billboard sprites with a 3D rig behind them. Draw once, bone it, animate it, bake any number of views.</p><span class="links"><a class="b95 dlk" href="#w-download" data-dl="threesprite">Download</a><a class="b95" href="tutorials/sprites/">Tutorial</a><a class="b95" href="https://github.com/projectdigidream/digidream-threesprite" target="_blank" rel="noopener">Source</a></span></div></article>
-        <article class="win out tool" data-icon="paint"><div class="tb"><span class="t">qPainter - textures</span></div>
-          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/texture.jpg" alt="qPainter painting a red brick texture" loading="lazy"></button><h3>qPainter</h3><p>Pixel-art textures with wrap, palettes, ramps, layers and frames, and a live 3D preview.</p><span class="links"><a class="b95 dlk" href="#w-download" data-dl="qpainter">Download</a><a class="b95" href="tutorials/textures/">Tutorial</a><a class="b95" href="https://github.com/projectdigidream/digidream-qpainter" target="_blank" rel="noopener">Source</a></span></div></article>
-        <article class="win out tool" data-icon="sound"><div class="tb"><span class="t">DigidreamSound - sfx</span></div>
-          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/sound.jpg" alt="DigidreamSound editing a sound recipe" loading="lazy"></button><h3>DigidreamSound</h3><p>Sound effects as recipes, not recordings. A hundred sounds weigh about 80 KB.</p><span class="links"><a class="b95 dlk" href="#w-download" data-dl="sound">Download</a><a class="b95" href="tutorials/sounds/">Tutorial</a><a class="b95" href="https://github.com/projectdigidream/digidream-sound" target="_blank" rel="noopener">Source</a></span></div></article>
-        <article class="win out tool" data-icon="music"><div class="tb"><span class="t">DigidreamSynth - music</span></div>
-          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/music.jpg" alt="DigidreamSynth's piano roll" loading="lazy"></button><h3>DigidreamSynth</h3><p>A small DAW with piano roll, patches, loops and cues. The game synthesizes the music itself.</p><span class="links"><a class="b95 dlk" href="#w-download" data-dl="synth">Download</a><a class="b95" href="tutorials/music/">Tutorial</a><a class="b95" href="https://github.com/projectdigidream/digidream-midisynth" target="_blank" rel="noopener">Source</a></span></div></article>
-        <article class="win out tool" data-icon="graph"><div class="tb"><span class="t">Graphs - logic</span></div>
-          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/cinder-graph.jpg" alt="A story graph for Cinderfall's boss fight" loading="lazy"></button><h3>Graphs</h3><p>Blueprint-style logic for a map or the whole game. Lua is there when you want it.</p><span class="links"><a class="b95" href="tutorials/graphs/">Tutorial</a><a class="b95 dlk" href="#w-download" data-dl="studio">Comes with the studio</a></span></div></article>
-        <article class="win out tool" data-icon="box"><div class="tb"><span class="t">Packager - export</span></div>
-          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/packager.jpg" alt="The Packager page" loading="lazy"></button><h3>Packager</h3><p>A module in, a game out: Android, Windows, macOS, Linux. All in the browser, nothing uploaded.</p><span class="links"><a class="b95 dlk" href="#w-download" data-dl="packager">Download</a><a class="b95" href="tutorials/studio/10-play-and-export.html">Tutorial</a><a class="b95" href="https://github.com/projectdigidream/digidream-packager" target="_blank" rel="noopener">Source</a></span></div></article>
+<!-- tools: the cards are written here from tools.md by scripts/build.mjs -->
       </div>
     </div>
-    <div class="status"><div class="in">7 object(s)</div><div class="in">My Computer</div></div>
+    <div class="status"><div class="in"><!-- tools-count --> object(s)</div><div class="in">My Computer</div></div>
   </section>
 
   <section class="win out help" data-icon="help" data-task="Tutorials" id="w-help">
@@ -189,6 +175,7 @@
 
 <div id="zoom" hidden role="dialog" aria-modal="true" aria-label="Screenshot"><button type="button" id="zoom-x">Close ✕</button><img id="zoom-img" alt=""><p id="zoom-cap"></p></div>
 <script src="assets/icons.js"></script>
+<script src="assets/tools.js"></script>
 <script src="assets/releases.js"></script>
 <script src="tutorials/assets/nav.js"></script>
 <script src="assets/index.js"></script>

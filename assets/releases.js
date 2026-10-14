@@ -1,6 +1,6 @@
 // Releases: the main page's Download box and downloads.html read them from here.
 //
-// Every tool is released from its own GitHub repository (REPO below). The page
+// Every tool is released from its own GitHub repository, named in tools.md. The page
 // asks GitHub for each repository's releases (GET /repos/<repo>/releases),
 // caches the answer for ten minutes per visitor, and works out each file's
 // platform from its name, so a release needs no particular naming beyond
@@ -17,14 +17,8 @@
 // links to them on GitHub instead of guessing.
 window.DNP_RELEASES = (function () {
   const OWNER = 'projectdigidream'
-  const TOOLS = [
-    { id: 'studio', name: 'Digidream Studio', repo: 'digidream-studio', icon: 'map', track: 'studio/', blurb: 'The level editor and hub: maps, monsters, weapons, triggers, graphs and Play. Includes the other tools as plugins.' },
-    { id: 'packager', name: 'Digidream Packager', repo: 'digidream-packager', icon: 'box', track: 'studio/10-play-and-export.html', blurb: 'A module in, a game out: Android, Windows, macOS and Linux apps, built in the browser.' },
-    { id: 'threesprite', name: 'ThreeSprite', repo: 'digidream-threesprite', icon: 'sprite', track: 'sprites/', blurb: 'Billboard sprites with a 3D rig behind them, baked into any number of views.' },
-    { id: 'qpainter', name: 'qPainter', repo: 'digidream-qpainter', icon: 'paint', track: 'textures/', blurb: 'Pixel-art textures with palettes, layers, frames and a live 3D preview.' },
-    { id: 'sound', name: 'DigidreamSound', repo: 'digidream-sound', icon: 'sound', track: 'sounds/', blurb: 'Sound effects as recipes, not recordings. MIT licensed.' },
-    { id: 'synth', name: 'DigidreamSynth', repo: 'digidream-midisynth', icon: 'music', track: 'music/', blurb: 'A small DAW with a deterministic synth: piano roll, patches, loops and cues.' }
-  ]
+  // the downloadable tools, from tools.md (assets/tools.js is written from it by the build)
+  const TOOLS = (window.DNP_TOOLS || []).filter((t) => t.repo)
   const ENGINE_REPO = 'digidream-engine'
   const SNAPSHOT = new URL('releases.json', document.currentScript ? document.currentScript.src : location.href).href
   const PLATFORMS = {
