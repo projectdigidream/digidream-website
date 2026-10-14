@@ -11,7 +11,7 @@ img{max-width:100%}
   --ink:#0a0a0a; --paper:#ffffff; --sel:#0a246a; --tip:#ffffe1;
   --ui:"Tahoma","Verdana","Geneva",sans-serif;
   --pix:"Pixelify Sans","Tahoma",sans-serif;
-  color-scheme:light;
+  color-scheme:only light;
 }
 @font-face{font-family:"Pixelify Sans";src:url(PixelifySans.ttf) format("truetype");font-display:swap}
 *{box-sizing:border-box}
@@ -68,7 +68,7 @@ h1 em{font-style:normal;color:var(--title-a)}
 .dl .tabs button[aria-selected="true"]{padding-bottom:5px;margin-top:-2px;font-weight:bold}
 .dl .blurb{margin:0 0 4px;max-width:60ch}
 .dl .repo{margin:-8px 0 12px;color:#333}
-.dl .repo a{color:#00007f}
+.dl .repo a{color:#00007f;overflow-wrap:anywhere}
 .dl .repo .unset{color:var(--lo);text-shadow:1px 1px var(--hi)}
 .dl .big{width:48px;height:48px}
 .dl .big{width:48px;height:48px;image-rendering:pixelated}
@@ -185,3 +185,6 @@ legend{padding:0 4px;font-weight:bold}
 .books small{color:#555;margin-left:auto;white-space:nowrap}
 .books p{margin:0 0 6px 36px;font-size:13px;color:#333}
 @media (max-width:860px){.books{grid-template-columns:minmax(0,1fr)}}
+
+/* a long unbroken name (a repository link) wraps instead of running past the window */
+a{overflow-wrap:anywhere}
