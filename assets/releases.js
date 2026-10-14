@@ -61,7 +61,7 @@ window.DNP_RELEASES = (function () {
   // archive (setup.exe and .zip, .dmg and .zip, .AppImage and .tar.gz). The
   // Download box offers one per system, the installer first; the downloads
   // page lists them all.
-  const RANK = [/\.(exe|msi)$/, /\.dmg$/, /\.appimage$/, /\.apk$/, /\.deb$/, /\.(zip|tar\.gz|tgz|tar\.xz)$/]
+  const RANK = [/(setup|install)[^/]*\.exe$|\.msi$/, /\.exe$/, /\.dmg$/, /\.appimage$/, /\.apk$/, /\.deb$/, /\.(zip|tar\.gz|tgz|tar\.xz)$/]
   const rank = (name) => { const i = RANK.findIndex((re) => re.test(name.toLowerCase())); return i < 0 ? RANK.length : i }
   function onePerSystem (files) {
     const best = new Map()
