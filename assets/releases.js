@@ -47,7 +47,12 @@ window.DNP_RELEASES = (function () {
     if (/linux|\.appimage$|\.deb$|\.rpm$/.test(n)) return 'linux-x64'
     return null
   }
-  const parse = (asset) => ({ platform: platformOf(asset.name) })
+  // A variant is a second build of the same thing for the same system, such as
+  // the studio without its plugins. The Download box never offers one first;
+  // the downloads page names it beside the system.
+  const VARIANTS = [[/no-?plugins/i, 'without plugins'], [/portable/i, 'portable']]
+  const variantOf = (name) => { const v = VARIANTS.find(([re]) => re.test(name)); return v ? v[1] : null }
+  const parse = (asset) => ({ platform: platformOf(asset.name), variant: variantOf(asset.name) })
 
   function detect () {
     const ua = navigator.userAgent
@@ -65,7 +70,8 @@ window.DNP_RELEASES = (function () {
   const rank = (name) => { const i = RANK.findIndex((re) => re.test(name.toLowerCase())); return i < 0 ? RANK.length : i }
   function onePerSystem (files) {
     const best = new Map()
-    for (const x of files) if (x.platform && (!best.has(x.platform) || rank(x.a.name) < rank(best.get(x.platform).a.name))) best.set(x.platform, x)
+    const score = (x) => (x.variant ? 100 : 0) + rank(x.a.name)
+    for (const x of files) if (x.platform && (!best.has(x.platform) || score(x) < score(best.get(x.platform)))) best.set(x.platform, x)
     const order = ['windows-x64', 'macos-arm64', 'macos-x64', 'macos', 'linux-x64', 'android']
     return [...best.values()].sort((a, b) => order.indexOf(a.platform) - order.indexOf(b.platform))
   }

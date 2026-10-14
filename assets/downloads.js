@@ -35,7 +35,7 @@ function fileTable (rel) {
     const p = R.PLATFORMS[x.platform]
     const link = el('a', { href: x.a.browser_download_url }, icon(x.platform === 'android' ? 'phone' : x.platform ? 'monitor' : 'doc'), x.a.name)
     if (x.platform) link.dataset.platform = x.platform
-    const tr = el('tr', {}, el('td', {}, link), el('td', { textContent: p ? `${p.label} (${p.detail})` : 'Other file' }), el('td', { className: 'num', textContent: R.size(x.a.size) }), el('td', { className: 'num', textContent: String(x.a.download_count) }))
+    const tr = el('tr', {}, el('td', {}, link), el('td', { textContent: p ? `${p.label} (${p.detail})${x.variant ? ' · ' + x.variant : ''}` : 'Other file' }), el('td', { className: 'num', textContent: R.size(x.a.size) }), el('td', { className: 'num', textContent: String(x.a.download_count) }))
     if (x === pick) { tr.className = 'mine'; tr.children[1].textContent += ' · this device' }
     tb.append(tr)
   }
