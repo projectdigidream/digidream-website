@@ -1,0 +1,124 @@
+// Releases: the main page's Download box and downloads.html read them from here.
+//
+// Every tool is released from its own GitHub repository (REPO below). The page
+// asks GitHub for each repository's releases (GET /repos/<repo>/releases),
+// caches the answer for ten minutes per visitor, and works out each file's
+// platform from its name, so a release needs no particular naming beyond
+// saying which system a file is for: "windows", "macos-arm64" / "macos-x64"
+// (or "mac", "darwin", "arm64", "x64"), "linux", or an .apk for Android.
+// Anything else in a release is listed under "Other files".
+//
+// The build (scripts/build.mjs) also writes a snapshot, assets/releases.json,
+// fetched with a token so it does not count against anyone. The pages read it
+// first, from the same origin, and only when it is more than 15 minutes old do
+// they also ask GitHub directly, keeping the snapshot if that fails. GitHub
+// allows 60 such requests an hour per visitor without a token; when neither
+// the snapshot nor GitHub has a repository's releases, the page says so and
+// links to them on GitHub instead of guessing.
+window.DNP_RELEASES = (function () {
+  const OWNER = 'projectdigidream'
+  const TOOLS = [
+    { id: 'studio', name: 'Digidream Studio', repo: 'digidream-studio', icon: 'map', track: 'studio', blurb: 'The level editor and hub: maps, monsters, weapons, triggers, graphs and Play. Includes the other tools as plugins.' },
+    { id: 'packager', name: 'Digidream Packager', repo: 'digidream-packager', icon: 'box', track: 'studio/10-play-and-export.html', blurb: 'A module in, a game out: Android, Windows, macOS and Linux apps, built in the browser.' },
+    { id: 'threesprite', name: 'ThreeSprite', repo: 'digidream-threesprite', icon: 'sprite', track: 'sprites', blurb: 'Billboard sprites with a 3D rig behind them, baked into any number of views.' },
+    { id: 'qpainter', name: 'qPainter', repo: 'digidream-qpainter', icon: 'paint', track: 'textures', blurb: 'Pixel-art textures with palettes, layers, frames and a live 3D preview.' },
+    { id: 'sound', name: 'DigidreamSound', repo: 'digidream-sound', icon: 'sound', track: 'sounds', blurb: 'Sound effects as recipes, not recordings. MIT licensed.' },
+    { id: 'synth', name: 'DigidreamSynth', repo: 'digidream-midisynth', icon: 'music', track: 'music', blurb: 'A small DAW with a deterministic synth: piano roll, patches, loops and cues.' }
+  ]
+  const ENGINE_REPO = 'digidream-engine'
+  const SNAPSHOT = new URL('releases.json', document.currentScript ? document.currentScript.src : location.href).href
+  const PLATFORMS = {
+    'windows-x64': { label: 'Windows', detail: '64-bit' },
+    'macos-arm64': { label: 'macOS', detail: 'Apple silicon' },
+    'macos-x64': { label: 'macOS', detail: 'Intel' },
+    'macos': { label: 'macOS', detail: 'universal' },
+    'linux-x64': { label: 'Linux', detail: '64-bit' },
+    android: { label: 'Android', detail: 'APK, sideload' }
+  }
+  const repoOf = (tool) => OWNER + '/' + tool.repo
+  const repoUrl = (tool) => 'https://github.com/' + repoOf(tool)
+  const releasesUrl = (tool) => repoUrl(tool) + '/releases'
+  const latestUrl = (tool) => repoUrl(tool) + '/releases/latest'
+  const toolOf = (release) => TOOLS.find((t) => t.id === release._tool) || null
+  const versionOf = (release) => release.tag_name.replace(/^[a-z]+-v|^v/i, '')
+
+  // Which system a file is for, from its name alone. Checksums, signatures and
+  // source archives are files too, but not downloads for a system.
+  function platformOf (name) {
+    const n = name.toLowerCase()
+    if (/\.(sha256|sha512|sig|asc|txt|md|json)$/.test(n) || /source|src\.(zip|tar)/.test(n)) return null
+    if (n.endsWith('.apk') || n.endsWith('.aab') || /android/.test(n)) return 'android'
+    if (/mac|darwin|osx|\.dmg$/.test(n)) return /arm64|aarch64|apple|silicon/.test(n) ? 'macos-arm64' : /x64|x86_64|intel|amd64/.test(n) ? 'macos-x64' : 'macos'
+    if (/(^|[^a-z])win(dows|64|32)?([^a-z]|$)|\.exe$|\.msi$/.test(n)) return 'windows-x64'
+    if (/linux|\.appimage$|\.deb$|\.rpm$/.test(n)) return 'linux-x64'
+    return null
+  }
+  const parse = (asset) => ({ platform: platformOf(asset.name) })
+
+  function detect () {
+    const ua = navigator.userAgent
+    if (/Android/i.test(ua)) return 'android'
+    if (/Windows/i.test(ua)) return 'windows-x64'
+    if (/Mac OS X|Macintosh/i.test(ua)) return 'macos-arm64' // a browser cannot tell Apple silicon from Intel reliably; most new Macs are arm64
+    if (/Linux/i.test(ua)) return 'linux-x64'
+    return 'windows-x64'
+  }
+  // the file for this device: an exact match, else a universal macOS build
+  function pickFor (files, mine) {
+    return files.find((x) => x.platform === mine) ||
+      (mine.startsWith('macos') ? files.find((x) => x.platform === 'macos') : null) || null
+  }
+
+  async function fetchRepo (repo) {
+    const key = 'dnp-releases-v4:' + repo
+    try {
+      const c = JSON.parse(localStorage.getItem(key) || 'null')
+      if (c && Date.now() - c.at < 10 * 60 * 1000) return c.releases
+    } catch (e) {}
+    const r = await fetch(`https://api.github.com/repos/${repo}/releases?per_page=30`, { headers: { Accept: 'application/vnd.github+json' } })
+    if (!r.ok) throw new Error('HTTP ' + r.status)
+    const releases = (await r.json()).filter((x) => !x.draft)
+    try { localStorage.setItem(key, JSON.stringify({ at: Date.now(), releases })) } catch (e) {}
+    return releases
+  }
+
+  async function snapshot () {
+    try {
+      const r = await fetch(SNAPSHOT, { cache: 'no-cache' })
+      if (r.ok) return await r.json()
+    } catch (e) {}
+    return null
+  }
+
+  // every tool's releases, newest first, each stamped with its tool; plus which tools could not be read
+  let loading = null
+  function load () {
+    if (loading) return loading
+    loading = (async () => {
+      const failed = new Set()
+      const out = []
+      const snap = await snapshot()
+      const fresh = snap && Date.now() - Date.parse(snap.at) < 15 * 60 * 1000
+      await Promise.all(TOOLS.map(async (t) => {
+        const kept = snap && snap.repos && snap.repos[repoOf(t)]
+        let list = fresh && kept ? kept : null
+        if (!list) { try { list = await fetchRepo(repoOf(t)) } catch (e) { list = kept || null } }
+        if (!list) { failed.add(t.id); return }
+        for (const rel of list) out.push({ ...rel, _tool: t.id })
+      }))
+      out.sort((x, y) => (y.published_at || '').localeCompare(x.published_at || ''))
+      const why = failed.size === 0 ? 'From GitHub Releases'
+        : failed.size === TOOLS.length ? 'GitHub could not be reached; the links go to GitHub instead'
+        : `From GitHub Releases; ${failed.size} repositor${failed.size === 1 ? 'y' : 'ies'} could not be read`
+      return { releases: out, failed, why }
+    })()
+    return loading
+  }
+  const releasesOf = (releases, tool) => releases.filter((r) => r._tool === tool)
+  const latestOf = (releases, tool) => { const rs = releasesOf(releases, tool); return rs.find((r) => !r.prerelease) || rs[0] || null }
+  const filesOf = (release) => release.assets.map((a) => ({ a, ...parse(a) }))
+  const MB = 1024 * 1024
+  const size = (b) => b >= MB * 10 ? Math.round(b / MB) + ' MB' : b >= MB ? (b / MB).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB'
+  const date = (iso) => new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })
+  return { OWNER, TOOLS, ENGINE_REPO, PLATFORMS, repoOf, repoUrl, releasesUrl, latestUrl, toolOf, versionOf, platformOf, parse, detect, pickFor, load, releasesOf, latestOf, filesOf, size, date }
+})()

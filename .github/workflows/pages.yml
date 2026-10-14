@@ -1,0 +1,55 @@
+# Build the site with the tutorials bundled, and publish it on GitHub Pages.
+#
+# Runs on every push to main; by hand (Actions -> Run workflow); every hour, to
+# refresh the releases snapshot (assets/releases.json); and when another
+# repository asks for it with a repository_dispatch: "tutorials-updated" from
+# the tutorials, "release-published" from a tool, so either reaches the site at
+# once without a commit here.
+name: pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+  repository_dispatch:
+    types: [tutorials-updated, release-published]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: projectdigidream/digidream-tutorials
+          path: _tutorials
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/build.mjs --tutorials _tutorials --out _site
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

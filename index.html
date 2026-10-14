@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Digidream</title>
+<meta name="description" content="Digidream: a pocket studio for sector-based retro games. Maps, sprites, textures, sounds and music, on a phone, a tablet or a computer.">
+<meta property="og:title" content="Digidream">
+<meta property="og:description" content="A pocket studio for sector-based retro games.">
+<meta property="og:image" content="assets/shots/studio-3d.jpg">
+<link rel="icon" href="assets/favicon.png">
+<link rel="stylesheet" href="assets/index.css">
+</head>
+<body>
+
+<div class="page">
+  <header class="hero" id="top">
+    <section class="win out welcome" data-icon="logo" data-task="Welcome" id="w-welcome">
+      <div class="tb"><span class="t">Welcome to Digidream</span></div>
+      <div class="wb">
+        <div class="stripe"><img src="assets/logo.png" alt=""></div>
+        <div>
+          <p class="eyebrow">Sectors · sprites · 2D and 3D</p>
+          <h1>Build retro worlds <em>in small sessions.</em></h1>
+          <p class="lede">Digidream is a pocket studio for sector-based games. Draw rooms, paint textures, rig sprites, make sounds and music, wire up the logic, and press Play, all on your phone.</p>
+          <p class="tip"><b>Did you know...</b> a whole room fits in ten spare minutes: draw it in plan, set its floor and ceiling, then walk it in 3D.</p>
+          <div class="ctas"><a class="b95 def" href="#w-download">Download</a><a class="b95" href="#w-tools">See the tools</a><a class="b95" href="#w-examples">AI-slopped examples</a><a class="b95" href="tutorials/">Tutorials</a></div>
+        </div>
+      </div>
+    </section>
+    <div class="planwrap">
+      <section class="win out plan" data-icon="map" data-task="Plan" id="w-plan">
+        <div class="tb"><span class="t">my-level / courtyard - Plan</span></div>
+        <div class="in"><canvas id="plan" width="800" height="600" aria-label="A sector map drawing itself: rooms appear one by one with their floor heights"></canvas></div>
+        <div class="status"><div class="in" id="pstat">0 sectors</div><div class="in">grid 32</div></div>
+      </section>
+    </div>
+  </header>
+
+  <section class="win out" data-icon="monitor" data-task="Screens" id="w-screens">
+    <div class="tb"><span class="t">Display Properties</span></div>
+    <div class="wb">
+      <div class="tabs" aria-hidden="true"><span>Background</span><span>Screen Saver</span><span>Appearance</span><span class="on">Settings</span></div>
+      <div class="tabbody">
+        <h2>One studio, three screens</h2>
+        <p class="sub">The same foundry from Cinderfall, open in the studio on a computer, a tablet and a phone. The layout adapts to the screen; the module is the same files.</p>
+        <div class="screens">
+          <fieldset class="pc"><legend>Computer</legend>
+            <button class="frame in" data-zoom data-cap="The studio on a computer, 1440 × 900"><img src="assets/shots/studio-3d.jpg" alt="The studio's 3D map editor on a computer, showing Cinderfall's west foundry" loading="lazy"></button>
+            <span class="dims">1440 × 900 · mouse and keyboard</span></fieldset>
+          <fieldset><legend>Tablet</legend>
+            <button class="frame in" data-zoom data-cap="The studio on a tablet, 1180 × 820 landscape"><img src="assets/shots/studio-tablet.jpg" alt="The studio on a tablet in landscape, the same foundry" loading="lazy"></button>
+            <span class="dims">1180 × 820 · touch</span></fieldset>
+          <fieldset><legend>Phone</legend>
+            <button class="frame in" data-zoom data-cap="The studio on a phone, 844 × 390 landscape"><img src="assets/shots/studio-phone-land.jpg" alt="The studio on a phone in landscape, with an icon rail and a big toolbar" loading="lazy"></button>
+            <span class="dims">844 × 390 · landscape, one thumb each side</span></fieldset>
+        </div>
+      </div>
+    </div>
+    <div class="status"><div class="in">Same module on every screen</div><div class="in">3 displays</div></div>
+  </section>
+
+  <section class="win out dl" data-icon="disk" data-task="Download" id="w-download">
+    <div class="tb"><span class="t">Download Digidream</span></div>
+    <div class="wb dlw">
+      <div class="tabs" role="tablist" id="dl-tabs"></div>
+      <div class="tabbody dlbody">
+        <canvas class="big" id="dl-icon" width="16" height="16"></canvas>
+        <div>
+          <h2 id="dl-name">Digidream Studio</h2>
+          <p class="blurb" id="dl-blurb"></p>
+          <p class="ver" id="dl-ver">Loading the latest release…</p>
+          <p class="repo" id="dl-repo"></p>
+          <div class="rec"><span id="dl-rec-label">Recommended for this device:</span><a class="b95 def" id="dl-main" href="downloads.html">Download</a></div>
+          <span id="dl-others-label">Other systems:</span>
+          <div class="others" id="dl-others"></div>
+          <div class="more"><a href="downloads.html" id="dl-all">All files, release notes and older versions…</a><span>Free, no account. Android builds are sideloaded.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="status"><div class="in" id="dl-src">…</div><div class="in" id="dl-tag">GitHub Releases</div></div>
+  </section>
+
+  <section class="win out metro" data-icon="doc" data-task="Why" id="w-why">
+    <div class="tb"><span class="t">Why I made this.txt - Notepad</span></div>
+    <div class="menu"><span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>S</u>earch</span><span><u>H</u>elp</span></div>
+    <div class="wb white in">
+      <div>
+        <h2>Why I made this</h2>
+        <p>Being a huge fan of sector-based and early 2.5D/3D games, I always felt that modern engines were somewhat overkill for that style. As a teenager I spent hours in tools like Doom Builder and the Warcraft III editor. Later I learned programming and even worked briefly in a game studio, but life eventually led me into another profession.</p>
+        <p>Making games stayed one of my biggest hobbies, though. With a full-time job and other responsibilities, free time became a privilege you snatch between other things, and even then I often spent it scrolling.</p>
+        <p>So at some point I decided to quickly make a little tool for building levels for a game that didn't exist. Doing it all myself would have taken too much of that free time, so AI helped, at the cost of performance and stability in places. Then came a sprite editor, a texture editor, and so on.</p>
+        <p>Here I'm publishing early versions of these tools and the studio that combines them, so that someone else might have fun with them too.</p>
+      </div>
+      <ol class="stops in" aria-label="What fits in one short session">
+        <li class="cap">One short session is enough for:</li>
+        <li><b>One room</b>Draw it in plan, set floor and ceiling, walk it in 3D.</li>
+        <li><b>One texture</b>Paint a 64 × 64 wall with a palette and see it tile.</li>
+        <li><b>One sound</b>Shape a hit or a door from a recipe, then hear it in game.</li>
+        <li><b>One monster</b>Draw its brain as states: look, chase, attack, pain.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="win out" data-icon="folder" data-task="Tools" id="w-tools">
+    <div class="tb"><span class="t">C:\Digidream\Tools</span></div>
+    <div class="menu"><span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>V</u>iew</span><span><u>H</u>elp</span></div>
+    <div class="wb">
+      <h2>Seven tools, one module</h2>
+      <p class="sub">Each tool writes into the same game module. The studio is the hub; the others open from it, as plugins or standalone pages.</p>
+      <div class="tools">
+        <article class="win out tool wide" data-icon="map"><div class="tb"><span class="t">Studio - maps · play</span></div>
+          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/studio-3d.jpg" alt="Studio's 3D map editor on Cinderfall's west foundry" loading="lazy"></button>
+          <div><h3>Studio</h3><p>Maps, monsters, weapons, props, triggers, screens and Play in one touch-first editor. Draw a room, raise its floor, drop a monster, press Play.</p><span class="links"><a class="b95 dlk" href="#w-download" data-dl="studio">Download</a><a class="b95" href="tutorials/studio/">Tutorial</a><a class="b95" href="https://github.com/projectdigidream/digidream-studio" target="_blank" rel="noopener">Source</a></span></div></div></article>
+        <article class="win out tool" data-icon="sprite"><div class="tb"><span class="t">ThreeSprite - sprites</span></div>
+          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/sprite-rig.jpg" alt="ThreeSprite rigging a pixel-art hero" loading="lazy"></button><h3>ThreeSprite</h3><p>Billboard sprites with a 3D rig behind them. Draw once, bone it, animate it, bake any number of views.</p><span class="links"><a class="b95 dlk" href="#w-download" data-dl="threesprite">Download</a><a class="b95" href="tutorials/sprites/">Tutorial</a><a class="b95" href="https://github.com/projectdigidream/digidream-threesprite" target="_blank" rel="noopener">Source</a></span></div></article>
+        <article class="win out tool" data-icon="paint"><div class="tb"><span class="t">qPainter - textures</span></div>
+          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/texture.jpg" alt="qPainter painting a red brick texture" loading="lazy"></button><h3>qPainter</h3><p>Pixel-art textures with wrap, palettes, ramps, layers and frames, and a live 3D preview.</p><span class="links"><a class="b95 dlk" href="#w-download" data-dl="qpainter">Download</a><a class="b95" href="tutorials/textures/">Tutorial</a><a class="b95" href="https://github.com/projectdigidream/digidream-qpainter" target="_blank" rel="noopener">Source</a></span></div></article>
+        <article class="win out tool" data-icon="sound"><div class="tb"><span class="t">DigidreamSound - sfx</span></div>
+          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/sound.jpg" alt="DigidreamSound editing a sound recipe" loading="lazy"></button><h3>DigidreamSound</h3><p>Sound effects as recipes, not recordings. A hundred sounds weigh about 80 KB.</p><span class="links"><a class="b95 dlk" href="#w-download" data-dl="sound">Download</a><a class="b95" href="tutorials/sounds/">Tutorial</a><a class="b95" href="https://github.com/projectdigidream/digidream-sound" target="_blank" rel="noopener">Source</a></span></div></article>
+        <article class="win out tool" data-icon="music"><div class="tb"><span class="t">DigidreamSynth - music</span></div>
+          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/music.jpg" alt="DigidreamSynth's piano roll" loading="lazy"></button><h3>DigidreamSynth</h3><p>A small DAW with piano roll, patches, loops and cues. The game synthesizes the music itself.</p><span class="links"><a class="b95 dlk" href="#w-download" data-dl="synth">Download</a><a class="b95" href="tutorials/music/">Tutorial</a><a class="b95" href="https://github.com/projectdigidream/digidream-midisynth" target="_blank" rel="noopener">Source</a></span></div></article>
+        <article class="win out tool" data-icon="graph"><div class="tb"><span class="t">Graphs - logic</span></div>
+          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/cinder-graph.jpg" alt="A story graph for Cinderfall's boss fight" loading="lazy"></button><h3>Graphs</h3><p>Blueprint-style logic for a map or the whole game. Lua is there when you want it.</p><span class="links"><a class="b95" href="tutorials/graphs/">Tutorial</a><a class="b95 dlk" href="#w-download" data-dl="studio">Comes with the studio</a></span></div></article>
+        <article class="win out tool" data-icon="box"><div class="tb"><span class="t">Packager - export</span></div>
+          <div class="wb"><button class="frame in" data-zoom><img src="assets/shots/packager.jpg" alt="The Packager page" loading="lazy"></button><h3>Packager</h3><p>A module in, a game out: Android, Windows, macOS, Linux. All in the browser, nothing uploaded.</p><span class="links"><a class="b95 dlk" href="#w-download" data-dl="packager">Download</a><a class="b95" href="tutorials/studio/10-play-and-export.html">Tutorial</a><a class="b95" href="https://github.com/projectdigidream/digidream-packager" target="_blank" rel="noopener">Source</a></span></div></article>
+      </div>
+    </div>
+    <div class="status"><div class="in">7 object(s)</div><div class="in">My Computer</div></div>
+  </section>
+
+  <section class="win out help" data-icon="help" data-task="Tutorials" id="w-help">
+    <div class="tb"><span class="t">Digidream Help Topics</span></div>
+    <div class="wb">
+      <div class="tabs" aria-hidden="true"><span class="on">Contents</span><span>Index</span><span>Find</span></div>
+      <div class="tabbody">
+        <h2>Tutorials</h2>
+        <p class="sub">Step-by-step books for the studio and each tool, with screenshots and small interactive demos. Click a book to open it.</p>
+        <ul class="books" id="help-list"></ul>
+        <div class="ctas"><a class="b95 def" href="tutorials/">Open the tutorials</a><a class="b95" href="tutorials/reference/shortcuts.html">All shortcuts</a></div>
+      </div>
+    </div>
+    <div class="status"><div class="in" id="help-status">…</div><div class="in">Also on GitHub: digidream-tutorials</div></div>
+  </section>
+
+  <section class="win out" data-icon="folder" data-task="AI-slopped examples" id="w-examples">
+    <div class="tb"><span class="t">C:\Examples (AI-slopped)</span></div>
+    <div class="wb">
+      <h2>AI-slopped examples</h2>
+      <div class="warn"><canvas data-icon="warn" width="16" height="16"></canvas><div><b>These two example games are AI-slopped.</b> AI agents built them by driving the studio, as a test that the tools hold up, with no engine changes. They show what the tools can do. They are not good games, and I didn't make them.</div></div>
+      <div class="games">
+        <article class="game"><button class="frame in" data-zoom data-cap="Gem Hollow (AI-slopped example): the isles"><img src="assets/shots/gem-isles.jpg" alt="Gem Hollow's floating isles" loading="lazy"></button><h3>Gem Hollow</h3><p>A platformer: one level in four zones, levers, gates, gems, slimes and bees. Art from Kenney (CC0). It comes with the studio: Home → Gem Hollow.</p><a class="b95" href="tutorials/examples/01-gem-hollow.html">Take the tour</a></article>
+        <article class="game"><button class="frame in" data-zoom data-cap="Cinderfall (AI-slopped example): husks in the hub, in game"><img src="assets/shots/cinder-game.jpg" alt="Cinderfall in game: husks closing in across the hub at dusk" loading="lazy"></button><h3>Cinderfall</h3><p>A first-person shooter in a smelting colony: five districts, no loading screens, one boss. Textures and music from Freedoom.</p><a class="b95" href="tutorials/examples/02-cinderfall.html">Take the tour</a></article>
+      </div>
+    </div>
+    <div class="status"><div class="in">2 object(s)</div><div class="in">AI-slopped</div></div>
+  </section>
+
+  <section class="win out" data-icon="cpu" data-task="Engine" id="w-engine">
+    <div class="tb"><span class="t">System Properties</span></div>
+    <div class="wb">
+      <h2>Under the floor</h2>
+      <p class="sub">A deterministic, fixed-point C++ core. The same simulation code runs natively on the server and as WebAssembly in the browser, so every machine computes the same world.</p>
+      <div class="stack">
+        <fieldset><legend>Core</legend><p>Fixed-point C++ simulation: sectors, bodies, movers, triangulation. No floats in the sim, so arm64, x86-64 and WASM agree bit for bit.</p></fieldset>
+        <fieldset><legend>Rendering</legend><p>three.js on WebGL. Sector meshes are baked by the map compiler; sprites stand in 3D as billboards; skies, fog and weather per sector.</p></fieldset>
+        <fieldset><legend>Gameplay</legend><p>LuaJIT scripts on the server, or Blueprint-style graphs authored in the studio, which compile to the same calls.</p></fieldset>
+        <fieldset><legend>Network</legend><p>Server-authoritative, with client-side prediction and delta-encoded snapshots, carried over WebTransport (HTTP/3, QUIC) through a small Node edge.</p></fieldset>
+        <fieldset><legend>Audio</legend><p>DigidreamSynth, a wavetable and subtractive MIDI synth, and DigidreamSound, sound effects as recipes. Both fixed-point: the same samples on every platform.</p></fieldset>
+        <fieldset><legend>Packaging</legend><p>The Packager assembles prebuilt engine kits in the browser: an Android APK, and Windows, macOS and Linux apps on Electron or Tauri.</p></fieldset>
+      </div>
+      <p class="tip mp"><b>Multiplayer</b> is built into the engine from the start, but the studio does not expose it yet: games made in it are single-player for now.</p>
+      <table class="facts95"><tr><td>Targets</td><td>Browser · Android · Windows · macOS · Linux</td></tr>
+        <tr><td>Source</td><td><a href="https://github.com/projectdigidream/digidream-engine" target="_blank" rel="noopener">digidream-engine</a> · <a href="https://github.com/projectdigidream" target="_blank" rel="noopener">every repository</a></td></tr></table>
+    </div>
+    <div class="status foot"><div class="in">Example art: Kenney (CC0) · OpenGameArt (CC0) · Freedoom (BSD-3-Clause) · font: Pixelify Sans (OFL)</div><div class="in">engine 0.1.1 · studio 0.3.0</div></div>
+  </section>
+</div>
+
+<div id="smenu" class="out" hidden>
+  <div class="side"><b>Digi</b>dream 0.3</div>
+  <ul id="slist"></ul>
+</div>
+<footer id="task">
+  <button id="start" class="b95" aria-haspopup="true" aria-expanded="false"><img src="assets/logo.png" alt="">Start</button>
+  <nav id="tasks" aria-label="Sections"></nav>
+  <div id="clock" class="in">--:--</div>
+</footer>
+
+<div id="zoom" hidden role="dialog" aria-modal="true" aria-label="Screenshot"><button type="button" id="zoom-x">Close ✕</button><img id="zoom-img" alt=""><p id="zoom-cap"></p></div>
+<script src="assets/icons.js"></script>
+<script src="assets/releases.js"></script>
+<script src="tutorials/assets/nav.js"></script>
+<script src="assets/index.js"></script>
+<script src="assets/zoom.js"></script>
+</body>
+</html>
