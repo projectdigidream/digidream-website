@@ -18,12 +18,12 @@
 window.DNP_RELEASES = (function () {
   const OWNER = 'projectdigidream'
   const TOOLS = [
-    { id: 'studio', name: 'Digidream Studio', repo: 'digidream-studio', icon: 'map', track: 'studio', blurb: 'The level editor and hub: maps, monsters, weapons, triggers, graphs and Play. Includes the other tools as plugins.' },
+    { id: 'studio', name: 'Digidream Studio', repo: 'digidream-studio', icon: 'map', track: 'studio/', blurb: 'The level editor and hub: maps, monsters, weapons, triggers, graphs and Play. Includes the other tools as plugins.' },
     { id: 'packager', name: 'Digidream Packager', repo: 'digidream-packager', icon: 'box', track: 'studio/10-play-and-export.html', blurb: 'A module in, a game out: Android, Windows, macOS and Linux apps, built in the browser.' },
-    { id: 'threesprite', name: 'ThreeSprite', repo: 'digidream-threesprite', icon: 'sprite', track: 'sprites', blurb: 'Billboard sprites with a 3D rig behind them, baked into any number of views.' },
-    { id: 'qpainter', name: 'qPainter', repo: 'digidream-qpainter', icon: 'paint', track: 'textures', blurb: 'Pixel-art textures with palettes, layers, frames and a live 3D preview.' },
-    { id: 'sound', name: 'DigidreamSound', repo: 'digidream-sound', icon: 'sound', track: 'sounds', blurb: 'Sound effects as recipes, not recordings. MIT licensed.' },
-    { id: 'synth', name: 'DigidreamSynth', repo: 'digidream-midisynth', icon: 'music', track: 'music', blurb: 'A small DAW with a deterministic synth: piano roll, patches, loops and cues.' }
+    { id: 'threesprite', name: 'ThreeSprite', repo: 'digidream-threesprite', icon: 'sprite', track: 'sprites/', blurb: 'Billboard sprites with a 3D rig behind them, baked into any number of views.' },
+    { id: 'qpainter', name: 'qPainter', repo: 'digidream-qpainter', icon: 'paint', track: 'textures/', blurb: 'Pixel-art textures with palettes, layers, frames and a live 3D preview.' },
+    { id: 'sound', name: 'DigidreamSound', repo: 'digidream-sound', icon: 'sound', track: 'sounds/', blurb: 'Sound effects as recipes, not recordings. MIT licensed.' },
+    { id: 'synth', name: 'DigidreamSynth', repo: 'digidream-midisynth', icon: 'music', track: 'music/', blurb: 'A small DAW with a deterministic synth: piano roll, patches, loops and cues.' }
   ]
   const ENGINE_REPO = 'digidream-engine'
   const SNAPSHOT = new URL('releases.json', document.currentScript ? document.currentScript.src : location.href).href

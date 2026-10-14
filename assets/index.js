@@ -134,9 +134,8 @@ function x2icon (p) { return p === 'android' ? 'phone' : 'monitor' }
   if (!Array.isArray(nav)) { document.getElementById('help-status').textContent = 'The tutorials are bundled when the site is built (scripts/build.mjs).'; return }
   let pages = 0
   for (const s of nav) {
-    const first = (s.pages || [])[0]
     const li = document.createElement('li')
-    const a = document.createElement('a'); a.href = 'tutorials/' + (first ? first.file : '')
+    const a = document.createElement('a'); a.href = 'tutorials/' + s.id + '/' // each track folder opens on its overview
     const book = icon('book'); book.className = 'book'
     const t = document.createElement('b'); t.textContent = s.title
     const n = document.createElement('small'); n.textContent = (s.pages || []).length + ' page' + ((s.pages || []).length === 1 ? '' : 's')
