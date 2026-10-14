@@ -65,9 +65,15 @@ requestAnimationFrame(draw);
   const $ = (id) => document.getElementById(id)
   const tabs = $('dl-tabs')
   const mine = R.detect()
-  let data = { releases: [], failed: new Set(R.TOOLS.map((t) => t.id)), why: 'Asking GitHub for the releases…' }
-  let current = 'studio'
   const ext = (a) => { a.target = '_blank'; a.rel = 'noopener'; return a }
+  let data = { releases: [], failed: new Set(R.TOOLS.map((t) => t.id)), why: 'Asking GitHub for the releases…' }
+  if (!R.TOOLS.length) { // assets/tools.js is written by the build: a site served unbuilt has none
+    $('dl-ver').textContent = 'The list of tools is missing, so there is nothing to offer here.'
+    $('dl-rec-label').replaceChildren('The releases are on GitHub: ', ext(Object.assign(document.createElement('a'), { href: 'https://github.com/' + R.OWNER, textContent: 'github.com/' + R.OWNER })))
+    $('dl-main').hidden = true; $('dl-others-label').hidden = true; $('dl-src').textContent = 'assets/tools.js was not found: is the site built?'
+    return
+  }
+  let current = R.TOOLS[0].id
   function show (toolId) {
     current = toolId
     const tool = R.TOOLS.find((t) => t.id === toolId)

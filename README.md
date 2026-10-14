@@ -61,7 +61,7 @@ Use `--tutorials <folder>` to bundle a checkout from somewhere other than `../tu
 - every hour, so the releases snapshot stays fresh;
 - when another repository sends a `repository_dispatch`: `tutorials-updated` from the tutorials, `release-published` from a tool.
 
-Pages must be switched on once, in the repository's Settings → Pages → Source: GitHub Actions.
+Pages must be switched on once, in the repository's Settings → Pages, with **Source: GitHub Actions**. "Deploy from a branch" would serve this folder unbuilt: no tool cards, no tutorials, and a Download box that can only say the tool list is missing.
 
 ## Credits
 
