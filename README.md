@@ -1,5 +1,7 @@
 # Digidream website
 
+Live at **https://projectdigidream.github.io/**. The repository is named `projectdigidream.github.io` so that GitHub serves it from the root of that address; it was `digidream-website` until 2026-10-15.
+
 The website for Digidream, a pocket studio for sector-based retro games: what it is, why it exists, each tool, downloads, and the tutorials.
 
 It is a static site in plain HTML, CSS and JavaScript, dressed as a Windows 95 desktop over a green hill. The hill was rendered by the Digidream engine itself, from `modules/hills` in the workspace.
