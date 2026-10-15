@@ -32,7 +32,7 @@ const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i
 const OUT = arg('--out', join(ROOT, 'dist'))
 const TUT = arg('--tutorials', resolve(ROOT, '..', 'tutorials'))
 
-const SITE = ['index.html', 'downloads.html', 'assets']
+const SITE = ['index.html', 'downloads.html', '404.html', 'digidream-website', 'assets']
 const SKIP_IN_TUTORIALS = new Set(['.git', '.github', 'node_modules', 'tools', 'AUTHORING.md', 'README.md', '.gitignore', '.DS_Store'])
 
 if (!existsSync(join(TUT, 'assets', 'nav.js'))) {

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digidream: not found</title>
+<meta name="robots" content="noindex">
+<script>
+  // GitHub Pages serves this for every address it has no file for.
+  // The site lived under /digidream-website/ until 2026-10-15: an old link
+  // goes on to the same page at the root, its query and #anchor kept.
+  (function () {
+    var OLD = '/digidream-website'
+    var p = location.pathname
+    if (p === OLD || p.indexOf(OLD + '/') === 0) location.replace((p.slice(OLD.length) || '/') + location.search + location.hash)
+  })()
+</script>
+<link rel="icon" href="/assets/favicon.png">
+<style>
+  html,body{margin:0;height:100%}
+  body{background:#3a7bd5 url(/assets/shots/hills-bg.jpg) center 40%/cover;font:15px/1.5 Tahoma,Verdana,Geneva,sans-serif;color:#0a0a0a;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}
+  .dlg{width:min(440px,100%);padding:3px;background:#c3c3c3;border:2px solid;border-color:#fff #0a0a0a #0a0a0a #fff;box-shadow:inset -1px -1px #808080,inset 1px 1px #dfdfdf,4px 4px 0 rgba(0,0,0,.35)}
+  .bar{padding:4px 6px;color:#fff;font-weight:bold;background:linear-gradient(90deg,#0a246a,#3a6ea5)}
+  .body{display:flex;gap:14px;padding:16px 14px 8px}
+  .icon{flex:none;width:32px;height:32px;border-radius:50%;background:#c00;color:#fff;font:bold 22px/32px Tahoma,sans-serif;text-align:center;box-shadow:inset -2px -2px rgba(0,0,0,.3)}
+  p{margin:0 0 8px}
+  code{font-size:13px;overflow-wrap:anywhere}
+  .ok{display:flex;justify-content:center;gap:8px;padding:6px 0 10px}
+  .ok a{min-width:96px;padding:4px 12px;text-align:center;color:#0a0a0a;text-decoration:none;background:#c3c3c3;border:2px solid;border-color:#fff #0a0a0a #0a0a0a #fff;box-shadow:inset -1px -1px #808080}
+  .ok a:first-child{outline:1px solid #0a0a0a}
+</style>
+</head>
+<body>
+  <div class="dlg" role="alertdialog" aria-labelledby="t">
+    <div class="bar" id="t">Digidream</div>
+    <div class="body">
+      <div class="icon" aria-hidden="true">×</div>
+      <div>
+        <p>Cannot find <code id="path"></code>.</p>
+        <p>The page may have moved. Make sure the address is spelled right, or start again from the main page.</p>
+      </div>
+    </div>
+    <div class="ok"><a href="/">Main page</a><a href="/tutorials/">Tutorials</a></div>
+  </div>
+  <script>document.getElementById('path').textContent = location.pathname</script>
+</body>
+</html>
