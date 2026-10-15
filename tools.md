@@ -96,8 +96,8 @@ Sound effects as recipes, not recordings. A hundred sounds weigh about 80 KB. Ar
 - icon: music
 - repository: digidream-midisynth
 - tutorial: music/
-- screenshot: music.jpg
-- screenshot text: DigidreamSynth's piano roll
+- screenshot: synth.jpg
+- screenshot text: DigidreamSynth arranging a boss track, opened from the Studio
 - short: A small DAW with a deterministic synth: piano roll, patches, loops and cues.
 
 A small DAW with piano roll, patches, loops and cues. The game synthesizes the
