@@ -59,7 +59,17 @@ h1 em{font-style:normal;color:var(--title-a)}
 .ctas{display:flex;gap:8px;flex-wrap:wrap}
 .planwrap{position:relative;display:flex;flex-direction:column;gap:22px}
 .state .wb{padding:12px 14px}
-.state p{margin:0;max-width:62ch}
+.state p{margin:0 0 10px;max-width:62ch}
+/* desktop: the right column is exactly as tall as the welcome window. The
+   state window keeps its height; the plan gets the rest, its drawing scaled to fit. */
+@media (min-width:861px){
+  .hero{align-items:stretch}
+  /* height 0 + min-height 100%: the column takes the row's height without adding to it, so the welcome window sets it */
+  .planwrap{height:0;min-height:100%}
+  .planwrap .plan{flex:1 1 auto;min-height:220px}
+  .planwrap .plan > .in{flex:1 1 auto;min-height:0;display:flex;background:#fff}
+  .planwrap #plan{width:100%;height:100%;aspect-ratio:auto;object-fit:contain}
+}
 #plan{display:block;width:100%;height:auto;aspect-ratio:4/3;background:#fff}
 /* download box */
 .dl .wb.dlw{display:block;padding:10px}
