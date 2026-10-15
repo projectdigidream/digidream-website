@@ -57,7 +57,9 @@ h1 em{font-style:normal;color:var(--title-a)}
 .lede{font-size:17px;margin:0 0 14px;max-width:46ch}
 .tip{background:var(--tip);border:1px solid var(--dk);padding:6px 9px;margin:0 0 14px;max-width:46ch}
 .ctas{display:flex;gap:8px;flex-wrap:wrap}
-.planwrap{position:relative}
+.planwrap{position:relative;display:flex;flex-direction:column;gap:22px}
+.state .wb{padding:12px 14px}
+.state p{margin:0;max-width:62ch}
 #plan{display:block;width:100%;height:auto;aspect-ratio:4/3;background:#fff}
 /* download box */
 .dl .wb.dlw{display:block;padding:10px}
