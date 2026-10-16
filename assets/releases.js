@@ -50,9 +50,15 @@ window.DNP_RELEASES = (function () {
   // A variant is a second build of the same thing for the same system, such as
   // the studio without its plugins. The Download box never offers one first;
   // the downloads page names it beside the system.
-  const VARIANTS = [[/no-?plugins/i, 'without plugins'], [/portable/i, 'portable']]
-  const variantOf = (name) => { const v = VARIANTS.find(([re]) => re.test(name)); return v ? v[1] : null }
-  const parse = (asset) => ({ platform: platformOf(asset.name), variant: variantOf(asset.name) })
+  // Each says how the downloads page heads its files: the group's title, and a
+  // line under it ("not recommended" is a judgement, so a variant opts into it).
+  const VARIANTS = [
+    { re: /no-?plugins/i, label: 'without plugins', group: 'Without plugins (not recommended)', note: 'The studio alone, with none of its plugins built in: ThreeSprite, qPainter, DigidreamSound, DigidreamSynth, Code, the Packager and GitHub sync.' },
+    { re: /portable/i, label: 'portable', group: 'Portable', note: 'Runs from wherever you put it, without installing.' }
+  ]
+  const variantInfo = (name) => VARIANTS.find((v) => v.re.test(name)) || null
+  const variantOf = (name) => { const v = variantInfo(name); return v ? v.label : null }
+  const parse = (asset) => ({ platform: platformOf(asset.name), variant: variantOf(asset.name), variantInfo: variantInfo(asset.name) })
 
   function detect () {
     const ua = navigator.userAgent

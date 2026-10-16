@@ -12,6 +12,12 @@ const el = (tag, props = {}, ...kids) => { const e = document.createElement(tag)
 const ext = (href, text) => el('a', { href, textContent: text, target: '_blank', rel: 'noopener' })
 const keyOf = (rel) => rel._tool + '/' + rel.tag_name
 
+// inline `code` in a line of release notes, as text nodes and <code>; nothing else is markup
+function inline (text) {
+  const out = []
+  text.replace(/\*\*/g, '').split(/(`[^`]+`)/).forEach((part) => { if (part) out.push(/^`.+`$/.test(part) ? el('code', { textContent: part.slice(1, -1) }) : part) })
+  return out
+}
 // release notes: "## heading" and "- item" lines; every other line is a paragraph
 function notes (md) {
   const box = el('div', { className: 'notes' })
@@ -20,28 +26,41 @@ function notes (md) {
     const t = line.trim()
     if (!t) { ul = null; continue }
     if (t.startsWith('#')) { ul = null; box.append(el('h3', { textContent: t.replace(/^#+\s*/, '') })); continue }
-    if (/^[-*]\s/.test(t)) { if (!ul) { ul = el('ul'); box.append(ul) } ul.append(el('li', { textContent: t.slice(2).replace(/\*\*/g, '') })); continue }
-    ul = null; box.append(el('p', { textContent: t.replace(/\*\*/g, '') }))
+    if (/^[-*]\s/.test(t)) { if (!ul) { ul = el('ul'); box.append(ul) } ul.append(el('li', {}, ...inline(t.slice(2)))); continue }
+    ul = null; box.append(el('p', {}, ...inline(t)))
   }
   return box.childNodes.length ? box : null
 }
 
 function fileTable (rel) {
-  const tb = el('tbody'); let total = 0
   const files = R.filesOf(rel)
-  const pick = R.pickFor(files.filter((x) => x.platform), mine)
-  for (const x of files) {
-    total += x.a.size
-    const p = R.PLATFORMS[x.platform]
-    const link = el('a', { href: x.a.browser_download_url }, icon(x.platform === 'android' ? 'phone' : x.platform ? 'monitor' : 'doc'), x.a.name)
-    if (x.platform) link.dataset.platform = x.platform
-    const tr = el('tr', {}, el('td', {}, link), el('td', { textContent: p ? `${p.label} (${p.detail})${x.variant ? ' · ' + x.variant : ''}` : 'Other file' }), el('td', { className: 'num', textContent: R.size(x.a.size) }), el('td', { className: 'num', textContent: String(x.a.download_count) }))
-    if (x === pick) { tr.className = 'mine'; tr.children[1].textContent += ' · this device' }
-    tb.append(tr)
+  if (!files.length) return { node: el('p', { className: 'empty' }, 'No ready-made builds in this release. ', ext(rel.html_url, 'See it on GitHub')), count: 0, total: 0 }
+  // this device's file is the one the Download box would offer
+  const pick = R.pickFor(R.onePerSystem(files), mine)
+  const table = (rows) => {
+    const tb = el('tbody')
+    for (const x of rows) {
+      const p = R.PLATFORMS[x.platform]
+      const link = el('a', { href: x.a.browser_download_url }, icon(x.platform === 'android' ? 'phone' : x.platform ? 'monitor' : 'doc'), x.a.name)
+      if (x.platform) link.dataset.platform = x.platform
+      const tr = el('tr', {}, el('td', {}, link), el('td', { textContent: p ? `${p.label} (${p.detail})` : 'Other file' }), el('td', { className: 'num', textContent: R.size(x.a.size) }), el('td', { className: 'num', textContent: String(x.a.download_count) }))
+      if (x === pick) { tr.className = 'mine'; tr.children[1].textContent += ' · this device' }
+      tb.append(tr)
+    }
+    return el('div', { className: 'tablewrap' }, el('table', { className: 'files' }, el('thead', {}, el('tr', {}, el('th', { textContent: 'Name' }), el('th', { textContent: 'System' }), el('th', { className: 'num', textContent: 'Size' }), el('th', { className: 'num', textContent: 'Downloads' }))), tb))
   }
-  if (!files.length) return { node: el('p', { className: 'empty' }, 'No ready-made builds in this release. ', ext(rel.html_url, 'See it on GitHub')), count: 0, total }
-  const table = el('table', { className: 'files' }, el('thead', {}, el('tr', {}, el('th', { textContent: 'Name' }), el('th', { textContent: 'System' }), el('th', { className: 'num', textContent: 'Size' }), el('th', { className: 'num', textContent: 'Downloads' }))), tb)
-  return { node: el('div', { className: 'tablewrap' }, table), count: files.length, total }
+  // the ordinary builds first; each kind of variant after them, under its own heading
+  const groups = new Map([[null, []]])
+  for (const x of files) { const k = x.variantInfo || null; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(x) }
+  const node = el('div', { className: 'filegroups' })
+  const split = groups.size > 1
+  for (const [v, rows] of groups) {
+    if (!rows.length) continue
+    if (split) node.append(el('h3', { className: 'fg' + (v && /not recommended/i.test(v.group) ? ' lesser' : ''), textContent: v ? v.group : 'Recommended' }))
+    if (split && v && v.note) node.append(el('p', { className: 'fgnote', textContent: v.note }))
+    node.append(table(rows))
+  }
+  return { node, count: files.length, total: files.reduce((t, x) => t + x.a.size, 0) }
 }
 
 function releaseBlock (right, rel, heading) {
