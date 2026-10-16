@@ -89,3 +89,5 @@ table.files{width:100%;border-collapse:collapse;font-variant-numeric:tabular-num
 .fgnote{margin:-2px 0 8px;color:#333;font-size:14px;max-width:72ch}
 .fg.lesser + .fgnote + .tablewrap{opacity:.85}
 .notes code{font:13px/1.4 "Courier New",monospace;background:#fff;border:1px solid #c8c8a0;padding:0 3px;overflow-wrap:anywhere}
+.fg.rec{margin:2px 0 10px}
+.fg.rec span{display:inline-block;font:22px/1.2 var(--pix);color:#fff;background:#008000;padding:4px 14px 5px;border:2px solid;border-color:#5fd35f #004000 #004000 #5fd35f;text-shadow:1px 1px 0 #004000}
